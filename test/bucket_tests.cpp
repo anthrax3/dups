@@ -19,6 +19,11 @@ namespace duplicate {
       }
       contents[key].push_back(m);
     }
+
+    std::vector<match>& operator[](const std::string& key) {
+      return contents[key];
+    }
+
     bool is_empty() {
       return contents.size() == 0;
     }
