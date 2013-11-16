@@ -3,10 +3,22 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <boost/filesystem.hpp>
 
 namespace duplicate {
 
   class match {
+    typedef boost::filesystem::path path_type;
+    path_type match_path;
+  public:
+    match() {}
+    match(path_type& path) {
+      match_path = path;
+    }
+
+    path_type path() {
+      return match_path;
+    }
   };
 
   class bucket {

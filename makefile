@@ -18,7 +18,8 @@ OBJECTS 	=
 
 
 TEST_OBJECTS	=	$(BUILD_TEST)/test_main.o	\
-			$(BUILD_TEST)/bucket_tests.o
+			$(BUILD_TEST)/bucket_tests.o	\
+			$(BUILD_TEST)/match_tests.o
 
 all		:	build/dups test
 
