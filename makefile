@@ -8,19 +8,21 @@ LIB_PATH = /usr/local/lib
 LT = a
 
 LIBS		= \
-			$(LIB_PATH)/libboost_filesystem-mt.$(LT) \
-			$(LIB_PATH)/libboost_system-mt.$(LT) \
-			$(LIB_PATH)/libboost_program_options-mt.$(LT)
+			$(LIB_PATH)/libboost_filesystem-mt.$(LT) 	\
+			$(LIB_PATH)/libboost_system-mt.$(LT) 		\
+			$(LIB_PATH)/libboost_program_options-mt.$(LT)	\
+			$(LIB_PATH)/libboost_regex-mt.$(LT)
 
 TEST_LIBS	= 	$(LIB_PATH)/libboost_unit_test_framework-mt.$(LT)
 
 OBJECTS 	=	
 
 
-TEST_OBJECTS	=	$(BUILD_TEST)/test_main.o	\
-			$(BUILD_TEST)/bucket_tests.o	\
-			$(BUILD_TEST)/match_tests.o	\
-			$(BUILD_TEST)/text_scanner_tests.o
+TEST_OBJECTS	=	$(BUILD_TEST)/test_main.o		\
+			$(BUILD_TEST)/bucket_tests.o		\
+			$(BUILD_TEST)/match_tests.o		\
+			$(BUILD_TEST)/text_scanner_tests.o	\
+			$(BUILD_TEST)/duplicate_text_finder_tests.o
 
 all		:	build/dups test
 

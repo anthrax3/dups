@@ -28,3 +28,25 @@ BOOST_AUTO_TEST_CASE(adding_match_to_bucket_already_containing_a_match) {
 
   BOOST_CHECK(bucket["key"].size() == 2);
 }
+
+BOOST_AUTO_TEST_CASE(bucket_is_empty_if_no_duplicates) {
+  duplicate::bucket bucket;
+  duplicate::match m;
+  bucket.add("key", m);
+  bucket.add("key1", m);
+
+  auto dups = bucket.duplicates();
+
+  BOOST_CHECK(dups.is_empty());
+}
+
+BOOST_AUTO_TEST_CASE(can_filter_bucket_contents_for_duplicates) {
+  duplicate::bucket bucket;
+  duplicate::match m;
+  bucket.add("key", m);
+  bucket.add("key", m);
+
+  auto dups = bucket.duplicates();
+
+  BOOST_CHECK(!dups.is_empty());
+}

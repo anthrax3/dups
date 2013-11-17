@@ -60,6 +60,18 @@ namespace duplicate {
       return contents[key];
     }
 
+    bucket duplicates() {
+      bucket result;
+
+      for (auto e : contents) {
+	if (e.second.size() > 1) {
+	  result.contents[e.first] = e.second;
+	}
+      }
+
+      return result;
+    }
+
     bool is_empty() {
       return contents.size() == 0;
     }
