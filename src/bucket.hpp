@@ -46,6 +46,8 @@ namespace duplicate {
 
   class bucket {
     std::map<std::string, std::vector<match> > contents;
+    typedef std::map<std::string, std::vector<match> >::iterator iterator;
+    typedef std::map<std::string, std::vector<match> >::const_iterator const_iterator;
   public:
     void add(std::string key, match m) {
 
@@ -75,5 +77,13 @@ namespace duplicate {
     bool is_empty() {
       return contents.size() == 0;
     }
+
+    iterator begin() { return contents.begin(); }
+
+    const_iterator begin() const { return contents.begin(); }
+
+    iterator end() { return contents.end(); }
+
+    const_iterator end() const { return contents.end(); }
   };
 }

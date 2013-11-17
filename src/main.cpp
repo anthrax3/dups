@@ -9,6 +9,7 @@ int main(int argc, const char *argv[]) {
   duplicate::duplicate_text_finder finder(6);
 
   auto duplicates = finder.find(".");
+
   // For each file in current directory
   // Scan file
   // Remove unique blocks

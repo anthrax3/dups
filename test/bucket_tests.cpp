@@ -50,3 +50,18 @@ BOOST_AUTO_TEST_CASE(can_filter_bucket_contents_for_duplicates) {
 
   BOOST_CHECK(!dups.is_empty());
 }
+
+BOOST_AUTO_TEST_CASE(can_iterate_matches) {
+  duplicate::bucket bucket;
+  duplicate::match m;
+  bucket.add("key", m);
+  bucket.add("key", m);
+
+  int count = 0;
+  for (auto e : bucket) {
+    count++;
+    BOOST_CHECK_EQUAL(e.second.size(), 2);
+  }
+
+  BOOST_CHECK_EQUAL(count, 1);
+}
