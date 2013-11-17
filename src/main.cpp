@@ -1,5 +1,7 @@
 #include <iostream>
 
-int main(int argc, const char *argv[]) {
+using namespace std;
 
+int main(int argc, const char *argv[]) {
+  cout << "dups - duplicate text finder" << std::endl;
 }

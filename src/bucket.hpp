@@ -7,17 +7,40 @@
 
 namespace duplicate {
 
+  class range {
+    int from;
+    int to;
+  public:
+    range() : range(0,0) {}
+    range(int from, int to) : from(from), to(to) { }
+
+    bool operator==(const range &other) const {
+      return from == other.from && to == other.to;
+    }
+    friend std::ostream& operator<< (std::ostream& stream, const range& range);
+  };
+  
+  inline std::ostream& operator<< (std::ostream& stream, const range& range) {
+    return stream << "from " << range.from << " to " << range.to;
+  }
+
   class match {
     typedef boost::filesystem::path path_type;
     path_type match_path;
+    range match_range;
   public:
     match() {}
-    match(path_type& path) {
-      match_path = path;
+    match(path_type& path) : match_path(path), match_range(0, 0) {
+    }
+    match(path_type& path, range range) : match_path(path), match_range(range) {
     }
 
     path_type path() {
       return match_path;
+    }
+
+    range range() const {
+      return match_range;
     }
   };
 
