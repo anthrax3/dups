@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <boost/filesystem.hpp>
+#include <boost/functional/hash.hpp>
 
 namespace duplicate {
 
@@ -54,11 +55,16 @@ namespace duplicate {
   };
 
   class bucket {
-    std::map<std::string, std::vector<match> > contents;
-    typedef std::map<std::string, std::vector<match> >::iterator iterator;
-    typedef std::map<std::string, std::vector<match> >::const_iterator const_iterator;
+    typedef std::string key_type;
+ 
+    std::map<key_type, std::vector<match> > contents;
+    typedef std::map<key_type, std::vector<match> >::iterator iterator;
+    typedef std::map<key_type, std::vector<match> >::const_iterator const_iterator;
   public:
-    void add(std::string key, match m) {
+    void add(key_type key, match m) {
+      boost::hash<std::string> string_hash;
+
+      std::size_t h = string_hash(key);
 
       if (contents.find(key) == contents.end()) {
 	std::vector<match> a;
@@ -67,7 +73,7 @@ namespace duplicate {
       contents[key].push_back(m);
     }
 
-    std::vector<match>& operator[](const std::string& key) {
+    std::vector<match>& operator[](const key_type& key) {
       return contents[key];
     }
 
