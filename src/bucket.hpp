@@ -17,6 +17,15 @@ namespace duplicate {
     bool operator==(const range &other) const {
       return from == other.from && to == other.to;
     }
+
+    size_t size() const {
+      return to - from;
+    }
+
+    bool contains(int line_number) {
+      return line_number >= from && line_number <= to;
+    }
+
     friend std::ostream& operator<< (std::ostream& stream, const range& range);
   };
   

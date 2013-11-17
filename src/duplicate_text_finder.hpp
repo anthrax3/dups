@@ -22,13 +22,11 @@ namespace duplicate {
 	if (regex_match(name, pattern)) {
 	  std::ifstream file(iter->path().string());
 
-	  scanner.scan(file, [&](std::string text) {
+	  scanner.scan(file, [&](std::string text, int start, size_t len) {
 	      boost::filesystem::path p = *iter;
-	      match m(p);
+	      match m(p, range(start, start + len));
 	      result.add(text, m);
 	    });
-	  
-	  std::cout << iter->path() << "\n";
 	}
       }
 
