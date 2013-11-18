@@ -12,21 +12,26 @@ namespace duplicate {
     constexpr static auto verbose_option_name = "verbose";
     boost::program_options::options_description desc;
   public:
-    command_line_options_parser() {
+    command_line_options_parser() : desc("command-line-options") {
       desc.add_options()
 	("help,h", "Display this message of command line options and exit")
 	("version", "Display the application version and exit")
 	("verbose,v",
 	 "Include more details of builds and status. By default a count of builds in each 'state' is printed to the console. "
-	 "Verbose output prints the status of each build and the causes of any failures.");
+	 "Verbose output prints the status of each build and the causes of any failures.")
+	("input-files",  boost::program_options::value<vector<string>>(), "input file");
     }
     
     config parse(int argc, const char *argv[]) {
       config result;
 
       boost::program_options::variables_map variables;
+      
+      boost::program_options::positional_options_description p;
+      p.add("input-files", -1);
 
-      boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), variables);
+
+      boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(desc).positional(p).run(), variables);
 
       boost::program_options::notify(variables);
 
@@ -43,9 +48,14 @@ namespace duplicate {
       }
 
       if (variables.count(verbose_option_name) > 0) {
-        result.set_version_only();
+        result.set_verbose(true);
       }
-
+      
+      if (variables.count("input-files")) {
+	cout << "Input files supplied" << endl;
+	result.set_input_files(variables["input-files"].as<vector<string>>());
+      }
+      
       return result;
     }
 

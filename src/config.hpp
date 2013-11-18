@@ -12,6 +12,7 @@ namespace duplicate {
     bool verbose;
     bool help_only;
     bool version_only;
+    vector<string> input_files;
   public:
     config() {
       verbose = false;
@@ -40,6 +41,16 @@ namespace duplicate {
 
     bool show_version_only() {
       return version_only;
+    }
+
+    void set_input_files(const vector<string>& files) {
+      for (auto f : files) {
+	input_files.push_back(f);
+      }
+    }
+
+    vector<string>& get_input_files() {
+      return input_files;
     }
   };
 }
