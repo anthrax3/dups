@@ -15,7 +15,7 @@ LIBS		= \
 
 TEST_LIBS	= 	$(LIB_PATH)/libboost_unit_test_framework-mt.$(LT)
 
-OBJECTS 	=	
+OBJECTS 	=	$(BUILD)/md5.o
 
 
 TEST_OBJECTS	=	$(BUILD_TEST)/test_main.o		\
@@ -47,6 +47,9 @@ clean:
 
 $(BUILD)/%.o : $(SRC)/%.cpp
 	clang++ -g -O1 -std=c++11 -Xclang "-stdlib=libc++" -I $(SRC) -I /usr/local/include -c $< -o $@
+
+$(BUILD)/%.o : $(SRC)/%.c
+	clang -g -O1 -I $(SRC) -I /usr/local/include -c $< -o $@
 
 $(BUILD_TEST)/%.o : $(TEST_SRC)/%.cpp
 	clang++ -g -O1 -std=c++11 -Xclang "-stdlib=libc++" -I $(SRC) -I /usr/local/include -D MAKEFILE_BUILD -c $< -o $@

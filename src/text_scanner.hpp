@@ -22,9 +22,9 @@ namespace duplicate {
     void scan(std::istream& stream, std::function<void (const std::string &, int, size_t)> fun) {
       auto line_number = 0;
       for (std::string line; std::getline(stream, line);) {
+	line_number++;
 	if (line.length() > 0) {
 	  buffer.push_back(line);
-	  line_number++;
 	  if (buffer.full()) {
 	    emit_block(line_number, fun);
 	  }

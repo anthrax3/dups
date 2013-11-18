@@ -1,3 +1,4 @@
+
 #include <boost/test/unit_test.hpp>
 
 #include "bucket.hpp"
@@ -25,14 +26,23 @@ BOOST_AUTO_TEST_CASE(adding_match_to_bucket_already_containing_a_match) {
   bucket.add("key", m);
 
   BOOST_CHECK(!bucket.is_empty());
-
-  BOOST_CHECK(bucket["key"].size() == 2);
 }
 
 BOOST_AUTO_TEST_CASE(bucket_is_empty_if_no_duplicates) {
   duplicate::bucket bucket;
   duplicate::match m;
   bucket.add("key", m);
+  bucket.add("key1", m);
+
+  auto dups = bucket.duplicates();
+
+  BOOST_CHECK(dups.is_empty());
+}
+
+BOOST_AUTO_TEST_CASE(small_text_change_are_not_duplicates) {
+  duplicate::bucket bucket;
+  duplicate::match m;
+  bucket.add("key0", m);
   bucket.add("key1", m);
 
   auto dups = bucket.duplicates();
