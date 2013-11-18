@@ -16,7 +16,7 @@ namespace duplicate {
 	content += x;
       }
       
-      fun(content, line_number, buffer.size());
+      fun(content, line_number - buffer.size(), buffer.size());
     }
     
     void scan(std::istream& stream, std::function<void (const std::string &, int, size_t)> fun) {
