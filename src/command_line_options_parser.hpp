@@ -19,16 +19,15 @@ namespace duplicate {
 	("verbose,v",
 	 "Include more details of builds and status. By default a count of builds in each 'state' is printed to the console. "
 	 "Verbose output prints the status of each build and the causes of any failures.")
+	("threshold", boost::program_options::value<int>()->default_value(6), "Threshold for duplicate discovery (default is 6)")
 	("input-files",  boost::program_options::value<vector<string>>(), "input file");
     }
     
     config parse(int argc, const char *argv[]) {
-
       boost::program_options::variables_map variables;
       
       boost::program_options::positional_options_description p;
       p.add("input-files", -1);
-
 
       boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(desc).positional(p).run(), variables);
 

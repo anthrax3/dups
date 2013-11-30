@@ -8,6 +8,7 @@ using namespace std;
 namespace duplicate {
   class duplicate_finder {
   public:
+
     int run(int argc, const char* argv[]) {
       command_line_options_parser options_parser;
       
@@ -26,7 +27,7 @@ namespace duplicate {
 	options_parser.show_help(std::cout);
       }
 
-      duplicate::duplicate_text_finder finder(6);
+      duplicate::duplicate_text_finder finder(config.get_threshold());
       
       if (config.get_input_files().size() > 0) {
 	for (auto f : config.get_input_files()) {
@@ -38,25 +39,32 @@ namespace duplicate {
       
 	    for (auto m : dup.second) {
 	      std::cout << "  " << m.path() << " " << m.range() << std::endl;
-	      std::cout << "----------------------" << std::endl;
-	
-	      ifstream p(m.path().string());
-	
-	      auto line_number = 0;
-	
-	      for (std::string line; std::getline(p, line);) {
-		line_number++;
-	  
-		if (m.range().contains(line_number)) {
-		  std::cout << line << std::endl;
-		}
+
+	      if (config.verbose_output()) {
+		print_block(m.path().string(), m.range(), cout);
 	      }
-	      std::cout << "----------------------" << std::endl;
 	    }
 	  }
 	}
       }
       return 0;
+    }
+
+    void print_block(const string file_path, range range, ostream& output) {
+      output << "----------------------" << endl;
+	
+      ifstream p(file_path);
+      
+      auto line_number = 0;
+      
+      for (string line; getline(p, line);) {
+	line_number++;
+	
+	if (range.contains(line_number)) {
+	  output << line << endl;
+	}
+      }
+      output << "----------------------" << std::endl;
     }
   };
 }

@@ -16,17 +16,16 @@ namespace duplicate {
     }
 
     bool can_run() {
-      return variables.size() > 0;
+      return variables.size() > 0 && variables.count("input-files") > 0;
     }
-
+    
     bool verbose_output() {
       return (variables.count("verbose") > 0);
     }
-
+    
     bool just_need_help() {
       return variables.count("help") > 0;
     }
-
 
     bool show_version_only() {
       return variables.count("version") > 0;
@@ -34,6 +33,10 @@ namespace duplicate {
 
     const vector<string>& get_input_files() {
       return variables["input-files"].as<vector<string>>();
+    }
+
+    int get_threshold() const {
+      return variables["threshold"].as<int>();
     }
   };
 }
