@@ -9,7 +9,7 @@
 
 namespace duplicate {
   class command_line_options_parser {
-    constexpr static auto verbose_option_name = "verbose";
+  private:
     boost::program_options::options_description desc;
   public:
     command_line_options_parser() : desc("command-line-options") {
@@ -23,7 +23,6 @@ namespace duplicate {
     }
     
     config parse(int argc, const char *argv[]) {
-      config result;
 
       boost::program_options::variables_map variables;
       
@@ -34,29 +33,8 @@ namespace duplicate {
       boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(desc).positional(p).run(), variables);
 
       boost::program_options::notify(variables);
-
-      if (variables.count(verbose_option_name) > 0) {
-        result.set_verbose(true);
-      }
-
-      if (variables.count("help") > 0) {
-        result.set_help_only();
-      }
-
-      if (variables.count("version") > 0) {
-        result.set_version_only();
-      }
-
-      if (variables.count(verbose_option_name) > 0) {
-        result.set_verbose(true);
-      }
       
-      if (variables.count("input-files")) {
-	cout << "Input files supplied" << endl;
-	result.set_input_files(variables["input-files"].as<vector<string>>());
-      }
-      
-      return result;
+      return config(variables);
     }
 
     void show_version(std::ostream &output) {

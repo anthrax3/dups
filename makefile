@@ -15,7 +15,7 @@ LIBS		= \
 
 TEST_LIBS	= 	$(LIB_PATH)/libboost_unit_test_framework-mt.$(LT)
 
-OBJECTS 	=	$(BUILD)/md5.o
+OBJECTS 	=	
 
 
 TEST_OBJECTS	=	$(BUILD_TEST)/test_main.o		\

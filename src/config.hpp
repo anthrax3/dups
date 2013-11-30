@@ -1,5 +1,6 @@
 #pragma once
 
+#include <boost/program_options.hpp>
 #include <initializer_list>
 #include <boost/foreach.hpp>
 #include <boost/filesystem.hpp>
@@ -9,48 +10,30 @@ using namespace std;
 namespace duplicate {
   class config {
   private:
-    bool verbose;
-    bool help_only;
-    bool version_only;
-    vector<string> input_files;
+    boost::program_options::variables_map variables;
   public:
-    config() {
-      verbose = false;
-      help_only = false;
+    config(const boost::program_options::variables_map& variables) : variables(variables) {
     }
 
-    void set_verbose(bool b) {
-      verbose = b;
+    bool can_run() {
+      return variables.size() > 0;
     }
 
     bool verbose_output() {
-      return verbose;
-    }
-
-    void set_help_only() {
-      help_only = true;
+      return (variables.count("verbose") > 0);
     }
 
     bool just_need_help() {
-      return help_only;
+      return variables.count("help") > 0;
     }
 
-    void set_version_only() {
-      version_only = true;
-    }
 
     bool show_version_only() {
-      return version_only;
+      return variables.count("version") > 0;
     }
 
-    void set_input_files(const vector<string>& files) {
-      for (auto f : files) {
-	input_files.push_back(f);
-      }
-    }
-
-    vector<string>& get_input_files() {
-      return input_files;
+    const vector<string>& get_input_files() {
+      return variables["input-files"].as<vector<string>>();
     }
   };
 }

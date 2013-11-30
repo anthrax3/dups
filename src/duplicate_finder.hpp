@@ -12,6 +12,11 @@ namespace duplicate {
       command_line_options_parser options_parser;
       
       auto config = options_parser.parse(argc, argv);
+
+      if (!config.can_run()) {
+	options_parser.show_help(std::cout);
+	return -1;
+      }
       
       if (config.show_version_only()) {
 	options_parser.show_version(std::cout);

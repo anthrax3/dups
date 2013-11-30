@@ -5,7 +5,6 @@
 #include <vector>
 #include <boost/filesystem.hpp>
 #include <boost/functional/hash.hpp>
-#include "md5.h"
 
 namespace duplicate {
 
@@ -54,55 +53,30 @@ namespace duplicate {
   };
 
   class bucket {
-    typedef std::string key_type;
+    typedef size_t key_type;
  
     std::map<key_type, std::vector<match> > contents;
     typedef std::map<key_type, std::vector<match> >::iterator iterator;
     typedef std::map<key_type, std::vector<match> >::const_iterator const_iterator;
     
-    key_type hash_key(key_type key) {
-      md5_state_t pms;
+    key_type hash_key(std::string key) {
+      boost::hash<std::string> hasher;
 
-      ::md5_init(&pms);
-      ::md5_append(&pms, (const md5_byte_t*)key.c_str(), key.length());
-      md5_byte_t digest[16];
-      ::md5_finish(&pms, digest);
-
-      char char_hash[33];
-      sprintf(char_hash, "%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x",
-	      digest[0],
-	      digest[1],
-	      digest[2],
-	      digest[3],
-	      digest[4],
-	      digest[5],
-	      digest[6],
-	      digest[7],
-	      digest[8],
-	      digest[9],
-	      digest[10],
-	      digest[11],
-	      digest[12],
-	      digest[13],
-	      digest[14],
-	      digest[15]);
-
-      return std::string(char_hash);
+      return hasher(key);
     }
   public:
-    void add(key_type key, match m) {
-      key_type s = key;
-      key = hash_key(key);
+    void add(std::string key, match m) {
+      auto k = hash_key(key);
 
-      if (contents.find(key) == contents.end()) {
+      if (contents.find(k) == contents.end()) {
 	std::vector<match> a;
-	contents[key] = a;
+	contents[k] = a;
       }
 
-      contents[key].push_back(m);
+      contents[k].push_back(m);
     }
 
-    std::vector<match>& operator[](const key_type& key) {
+    std::vector<match>& operator[](const std::string& key) {
       return contents[hash_key(key)];
     }
 
