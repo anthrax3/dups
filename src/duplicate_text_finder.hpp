@@ -15,6 +15,7 @@ namespace duplicate {
     boost::regex build_regex() {
       string pattern_text = ".*("
 	"\\.cpp"
+	"|\\.c"
 	"|\\.h"
 	"|\\.hpp"
 	"|\\.java"

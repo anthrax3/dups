@@ -29,27 +29,32 @@ namespace duplicate {
 
       duplicate::duplicate_text_finder finder(config.get_threshold());
       
-      if (config.get_input_files().size() > 0) {
-	for (auto f : config.get_input_files()) {
+      scan(config.get_input_files(), finder, config.verbose_output());
+
+      return 0;
+    }
+
+    void scan(vector<string> files, duplicate::duplicate_text_finder finder, bool verbose) {
+      if (files.size() > 0) {
+	for (auto f : files) {
 	
 	  auto duplicates = finder.find(f);
 	
 	  for (auto dup : duplicates) {
 	    std::cout << dup.second[0].range().size() << " duplicate lines found" << std::endl;
-      
+	    
 	    for (auto m : dup.second) {
 	      std::cout << "  " << m.path() << " " << m.range() << std::endl;
-
-	      if (config.verbose_output()) {
+	      
+	      if (verbose) {
 		print_block(m.path().string(), m.range(), cout);
 	      }
 	    }
 	  }
 	}
       }
-      return 0;
     }
-
+      
     void print_block(const string file_path, range range, ostream& output) {
       output << "----------------------" << endl;
 	
