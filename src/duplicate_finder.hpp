@@ -1,7 +1,9 @@
 #pragma once
 #include <iostream>
+#include <boost/progress.hpp>
 #include "duplicate_text_finder.hpp"
 #include "command_line_options_parser.hpp"
+#include "metrics.hpp"
 
 using namespace std;
 
@@ -36,9 +38,12 @@ namespace duplicate {
 
     void scan(vector<string> files, duplicate::duplicate_text_finder finder, bool verbose) {
       if (files.size() > 0) {
+	boost::progress_timer t;  // start timing
+
+	metrics m;
 	for (auto f : files) {
 	
-	  auto duplicates = finder.find(f);
+	  auto duplicates = finder.find(f, m);
 	
 	  for (auto dup : duplicates) {
 	    std::cout << dup.second[0].range().size() << " duplicate lines found" << std::endl;
@@ -52,6 +57,8 @@ namespace duplicate {
 	    }
 	  }
 	}
+	
+	cout << "Found " << m.files_found << " files and scanned " << m.files_scanned << " files" << " totalling " << m.lines_scanned << " lines in ";
       }
     }
       

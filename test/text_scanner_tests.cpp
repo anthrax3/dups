@@ -2,7 +2,8 @@
 #include "text_scanner.hpp"
 
 BOOST_AUTO_TEST_CASE(scanner_emits_lines_when_full) {
-  duplicate::text_scanner scanner(2);
+  duplicate::metrics m;
+  duplicate::text_scanner scanner(2, m);
 
   std::istringstream input;
   input.str("1\n2");
@@ -21,7 +22,8 @@ BOOST_AUTO_TEST_CASE(can_hash_strings) {
 
 
 BOOST_AUTO_TEST_CASE(scanner_supports_single_lines) {
-  duplicate::text_scanner scanner(1);
+  duplicate::metrics m;
+  duplicate::text_scanner scanner(1, m);
   
   std::istringstream input;
   input.str("1");
@@ -34,7 +36,8 @@ BOOST_AUTO_TEST_CASE(scanner_supports_single_lines) {
 }
 
 BOOST_AUTO_TEST_CASE(scanner_ignores_blank_lines) {
-  duplicate::text_scanner scanner(2);
+  duplicate::metrics m;
+  duplicate::text_scanner scanner(2, m);
   
   std::istringstream input;
   input.str("1\n\n2");

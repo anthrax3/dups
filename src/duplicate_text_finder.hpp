@@ -3,9 +3,13 @@
 #include <fstream>
 #include <boost/regex.hpp>
 #include <boost/filesystem.hpp>
+
 #include "bucket.hpp"
 #include "text_scanner.hpp"
 #include "ticker.hpp"
+#include "metrics.hpp"
+
+
 using namespace std;
 
 namespace duplicate {
@@ -28,16 +32,19 @@ namespace duplicate {
   public:
     duplicate_text_finder(int match_threshold) : match_threshold(match_threshold) {}
     
-    bucket find(std::string path) {
+    bucket find(std::string path, metrics& m) {
       console_progress_ticker ticker;
       bucket result;
-      text_scanner scanner(match_threshold);
+      text_scanner scanner(match_threshold, m);
 
       boost::regex pattern = build_regex();
       for (boost::filesystem::recursive_directory_iterator iter(path), end; iter != end;  ++iter) {
 	std::string name = iter->path().leaf().string();
 
+	m.files_found += 1;
+
 	if (regex_match(name, pattern)) {
+	  m.files_scanned += 1;
 	  ticker.tick();
 	  std::ifstream file(iter->path().string());
 
@@ -49,6 +56,7 @@ namespace duplicate {
 	}
       }
       ticker.clear();
+
       return result.duplicates();
     }
     
