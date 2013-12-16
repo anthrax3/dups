@@ -20,7 +20,7 @@ namespace duplicate {
 	 "Include more details of builds and status. By default a count of builds in each 'state' is printed to the console. "
 	 "Verbose output prints the status of each build and the causes of any failures.")
 	("threshold", boost::program_options::value<int>()->default_value(6), "Threshold for duplicate discovery (default is 6)")
-	("input-files",  boost::program_options::value<vector<string>>(), "input file");
+	("input-files",  boost::program_options::value<vector<string>>(), "paths to scan for duplicates.");
     }
     
     config parse(int argc, const char *argv[]) {
@@ -44,7 +44,7 @@ namespace duplicate {
       show_version(output);
       output << std::endl;
       output << "usage:" << std::endl;
-      output << "   dups [options]" << std::endl;
+      output << "   dups [options] paths" << std::endl;
       output << std::endl;
       output << "Options:" << std::endl;
       output << desc << std::endl;
