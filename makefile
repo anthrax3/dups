@@ -41,6 +41,12 @@ $(BUILD)/dupstest	:	$(OBJECTS) $(TEST_OBJECTS)
 test			:	$(BUILD_TEST) $(BUILD)/dupstest
 	./$(BUILD)/dupstest
 
+ci-test: $(BUILD)/dupstest
+	./$^ --log_format=XML --log_sink=results.xml --log_level=all --report_level=no
+
+ci-build:	clean $(BUILD)/dups test ci-test
+
+
 clean:
 	-rm -rf $(BUILD)/*
 
