@@ -18,3 +18,7 @@ command-line-options:
                         and the causes of any failures.
   --threshold arg (=6)  Threshold for duplicate discovery (default is 6)
 ```
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/grahambrooks/dups/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
